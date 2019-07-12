@@ -1,0 +1,39 @@
+header{position: fixed!important;top: 0;left: 0;right: 0;z-index: 10;}
+.mthead{margin-top: 2.25rem!important;}
+
+/*login.html*/
+.aui-list,.aui-list .aui-list-item {background-image: none!important;border-top: none;}
+			.login-item{border-bottom: 1px solid #ddd!important;margin-top:30px!important;padding-left: 5px!important;}
+			.login-con{padding:5% 5%;}
+			.page-head-con{font-size: 25px;font-family: '微软雅黑';font-weight: 800;}
+			.page-form-con{padding:80px 5%;}
+			.login-icon-con{font-size: 30px;position: relative;top: -3px;}
+			.rem-pwd-con{width: 20px!important;height: 20px!important;}
+			.rem-ped-text{position: relative;top: -3px;}
+			.for-pwd-text{position: relative;top: -3px;float: right;}
+			.mt60{margin-top: 60px;}
+			.now-reg-btn{position: fixed;bottom: 25px;text-align: center;left: 0;right: 0;}
+			
+/*page1.html*/
+.index-head{background: #fff;padding: 20px 10px;height: 80px;}
+.index-num{font-size: 20px;color: #FF3B30;}
+.qdbtn{padding-left: 15px;padding-right: 15px;}
+.sxbtn{padding-left: 15px;padding-right: 15px;}
+.index-title{padding: 12px 10px; background: #D0C078;font-size: 16px;font-weight: 800;}
+.index-list{padding-left: 10px!important; margin-top: 0!important;}
+
+/*down*/
+img{display: inline-block;}
+			.p-25-0{padding: 25px 0;}
+			.br20{border-radius: 20px;}
+			.aui-bg-white{background: #ffffff;}
+			.down-logo{text-align: center; position: absolute;left: 50%;margin-left: -60px;bottom: -60px;}
+			.down-title{margin-top: 50px;margin-bottom: 10px; font-size: 20px;font-weight: 800;}
+			.down-lj-con{padding:30px 20%;}
+			
+/*sclj*/
+.fzljbtn{position: absolute;width:100px;top:15px;font-size: 14px!important;line-height: 1.8rem!important;height: 1.8rem!important; right: 10px;}
+
+/*reg*/
+.tpimg{position: absolute;width:100px;bottom:5px;font-size: 14px!important;line-height: 1.8rem!important;height: 1.8rem!important; right: 0px;}
+			.sendcodebtn{position: absolute;width:100px;top:0px;font-size: 14px!important;line-height: 1.8rem!important;height: 1.8rem!important; right: 10px;}
