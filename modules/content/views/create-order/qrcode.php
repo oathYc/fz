@@ -8,16 +8,17 @@
 </style>
 <script src="/js/jquery-3.3.1.js"></script>
 <!--<script src="js/jQuery.min.js"></script>-->
-<script src="js/qrcode.lib.min.js"></script>
-<script src="js/qrcode.js"></script>
+<script src="/js/qrcode.min.js"></script>
+<script src="/js/qrcode.js"></script>
 
 <body>
 <div class="right-three" onclick="saoYisao()">
-    <img class="goclass_three" id="fistSaoyisao" src="{xiao:$site_template}images/scanning@2x.png"/>
+    扫一扫
     <input type="file" capture="camera" style="position:absolute;top: 12px;width: 24px;opacity: 0;right:3px;z-index: 0;" class="upload-pic-input"/>
 </div>
 <script>
     function saoYisao(){
+        alert(1);
         var dom = document.getElementsByClassName('upload-pic-input');
         Array.from(dom).forEach(item=>{
             item.onchange = function(){
