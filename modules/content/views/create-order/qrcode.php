@@ -7,18 +7,41 @@
     html, body { height: 100%; width: 100%; text-align:center; }
 </style>
 <script src="/js/jquery-3.3.1.js"></script>
+<!--<script src="js/jQuery.min.js"></script>-->
+<script src="js/qrcode.lib.min.js"></script>
+<script src="js/qrcode.js"></script>
+
 <body>
-
-<div id="support"></div>
-<div id="contentHolder">
-    <video id="video" width="320" height="320" autoplay>
-    </video>
-    <canvas style="display:none; background-color:#F00;" id="canvas" width="320" height="320">
-    </canvas> <br/>
-    <a href="http://sao315.com/w/api/saoyisao?redirect_uri=">扫一扫</a>
-    <button id="snap" style="display:none; height:50px; width:120px;">开始扫描</button>
+<div class="right-three" onclick="saoYisao()">
+    <img class="goclass_three" id="fistSaoyisao" src="{xiao:$site_template}images/scanning@2x.png"/>
+    <input type="file" capture="camera" style="position:absolute;top: 12px;width: 24px;opacity: 0;right:3px;z-index: 0;" class="upload-pic-input"/>
 </div>
-
-
+<script>
+    function saoYisao(){
+        var dom = document.getElementsByClassName('upload-pic-input');
+        Array.from(dom).forEach(item=>{
+            item.onchange = function(){
+                $(this).parent().find('p').hide();
+                $(this).parent().find('.iconfont').hide();
+                var src = getObjectURL(this.files[0]);
+                qrcode.decode(src);
+                qrcode.callback = function(src){
+                    alert(src);//转码出来的信息
+                }
+            }
+        });
+        function getObjectURL(file) {
+            var url = null;
+            if (window.createObjectURL!=undefined) {
+                url = window.createObjectURL(file) ;
+            } else if (window.URL!=undefined) { // mozilla(firefox)
+                url = window.URL.createObjectURL(file) ;
+            } else if (window.webkitURL!=undefined) { // webkit or chrome
+                url = window.webkitURL.createObjectURL(file) ;
+            }
+            return url ;
+        }
+    }
+</script>
 
 </body></html>
