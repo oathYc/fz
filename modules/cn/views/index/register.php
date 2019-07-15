@@ -31,7 +31,9 @@
                         <input type="text" id="picval" placeholder="请输入图片验证码" width="60%"/>
                     </div>
                 </div>
-                <div class="tpimg"><img src='http://www.tvnxl.com/front/captcha' height="32" id="tpyzm"/></div>
+                <div class="tpimg">
+                    <img src='/captcha/captcha' height="32" id="tpyzm"/>
+                </div>
             </li>
             <li class="aui-list-item login-item">
                 <div class="aui-list-item-inner">
@@ -104,18 +106,29 @@
             Toast('图片验证码不能为空');
             return false;
         }
+        $.post(paramUrl+"/cn/api/check-img-code",{
+            imgCode:picval,
+        },function(re){
+            if(re.code !=1){
+                Toast('图片验证码不正确');
+            }
+        },'json');
         if(!tel){
             Toast('手机号不能为空');
             return false;
         }
 
+        if(tel.length !== 11){
+            Toast('请输入正确的手机号码');
+            return false;
+        }
         if (countdown == 0) {
             val.removeAttribute("disabled");
             val.value="发送验证码";
             countdown = 60;
         } else {
             if(countdown==60){
-                $.post(paramUrl+"front/sendCode",{
+                $.post(paramUrl+"cn/api/send-code",{
                     'phone': tel,
                     'type': 's-reg',//接单注册
                     'verifyCode':picval,
@@ -137,7 +150,7 @@
 
     }
     $("#tpyzm").click(function(){
-        $("#tpyzm").attr('src',paramUrl+'front/captcha?timestamp=' + (new Date()).valueOf());
+        $("#tpyzm").attr('src',paramUrl+'/captcha/captcha?timestamp=' + (new Date()).valueOf());
     })
 
 
@@ -151,7 +164,7 @@
         if(!vcode){ $.toptip('请输入验证码');return;};
         if(!pwd){ $.toptip('请输入密码');return;};
 //				if(!rCode){ $.toptip('请输入推荐码');return;};
-        $.post(paramUrl+"front/buy/reg",{
+        $.post(paramUrl+"cn/api/register",{
             'acc': tel,
             'msgCode':vcode,
             'pwd': pwd,
@@ -165,7 +178,7 @@
             }else{
                 Toast(ret.msg);
             }
-        });
+        },'json');
 
     });
 </script>

@@ -2,7 +2,8 @@
  *从url中获取请求参数 
  * @param {String} name
  */
-var paramUrl='http://www.tvnxl.com/';
+// var paramUrl='http://www.tvnxl.com/';
+var paramUrl='http://fz.cn/';
 //var paramUrl='http://192.168.0.104:8080/fz/';
 
 function openindex() {
@@ -46,8 +47,10 @@ function getQueryString(name) {    //中文的参数用这个取
 //	});
 //}
 function Toast(msg,duration){
+    console.log(msg);
   duration=isNaN(duration)?3000:duration;
   var m = document.createElement('div');
+  console.log(msg);
   m.innerHTML = msg;
   m.style.cssText="max-width:60%;min-width: 150px;padding:0 14px;height: 40px;color: rgb(255, 255, 255);line-height: 40px;text-align: center;border-radius: 4px;position: fixed;top: 50%;left: 50%;transform: translate(-50%, -50%);z-index: 999999;background: rgba(0, 0, 0,.7);font-size: 16px;";
   document.body.appendChild(m);
@@ -87,7 +90,7 @@ function openWin(fn,tit,bv) {
 //	});
 }
 function load(msg){
-	var str = "<div id='loadingMask' style='text-align: center;border-radius:5px;color: #ffffff;position: fixed;z-index: 3;top: 45%;left: 50%;width: 6em;min-height: 6em;margin-left: -3em;margin-top: -3rem;display: block;'><img src='load.gif'/></div>";
+	var str = "<div id='loadingMask' style='text-align: center;border-radius:5px;color: #ffffff;position: fixed;z-index: 3;top: 45%;left: 50%;width: 6em;min-height: 6em;margin-left: -3em;margin-top: -3rem;display: block;'><img src='/image/load.gif'/></div>";
 	if($("body #loadingMask")){
 		$("body #loadingMask").remove();
 	}  

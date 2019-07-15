@@ -31,7 +31,7 @@
                         <input type="text" id="picval" placeholder="请输入图片验证码" width="60%"/>
                     </div>
                 </div>
-                <div class="tpimg"><img src='http://www.tvnxl.com/front/captcha' height="32" id="tpyzm"/></div>
+                <div class="tpimg"><img src='/captcha/captcha' height="32" id="tpyzm"/></div>
             </li>
             <li class="aui-list-item login-item">
                 <div class="aui-list-item-inner">
@@ -84,8 +84,8 @@
 <script type="text/javascript" src="/js/api.js" ></script>
 <script type="text/javascript" src="/js/jquery-3.3.1.js" ></script>
 <script type="text/javascript" src="/js/aui-toast.js" ></script>
-<!--<script type="text/javascript" src="/js/vue.js" ></script>-->
-<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script type="text/javascript" src="/js/vue.js" ></script>
+<!--<script src="https://cdn.jsdelivr.net/npm/vue"></script>-->
 <script type="text/javascript" src="/js/all.js" ></script>
 <script type="text/javascript" src="/js/fw.js" ></script>
 </html>

@@ -28,17 +28,16 @@ apiready = function() {
 					load();
 					if(that.axflag){
 						that.axflag=false;
-						$.post(paramUrl+"front/buy/log",{ 
+						$.post(paramUrl+"cn/api/login",{
 							acc:that.acc, 
 							pwd: that.pwd
 						},function(ret){
 							that.axflag=true;
 							hideload();
 			           		if(ret.success){
-			           			
-				           		localStorage.acc=ret.data.acc;
+				           		localStorage.acc=ret.acc;
 				           		localStorage.pwd=that.pwd;
-				           		localStorage.token=ret.data.token;
+				           		localStorage.token=ret.token;
 				           		Toast('登录成功');
 				           		setTimeout(function(){
 				           			openWin('page1')
@@ -46,7 +45,7 @@ apiready = function() {
 							}else{
 								Toast(ret.msg);
 							}
-					   	});
+					   	},'json');
 					}
 					
 				}
