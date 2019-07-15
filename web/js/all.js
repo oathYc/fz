@@ -2,8 +2,8 @@
  *从url中获取请求参数 
  * @param {String} name
  */
-// var paramUrl='http://www.tvnxl.com/';
-var paramUrl='http://fz.cn/';
+var paramUrl='http://59.110.156.117/';
+// var paramUrl='http://fz.cn/';
 //var paramUrl='http://192.168.0.104:8080/fz/';
 
 function openindex() {
