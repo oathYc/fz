@@ -13,61 +13,55 @@
     <script type="text/javascript" src="/js/aui-toast.js" ></script>
 <!--    <script type="text/javascript" src="/js/vue.js" ></script>-->
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-    <script type="text/javascript" src="/js/jquery-3.2.1.min.js" ></script>
+    <script type="text/javascript" src="/js/jquery-3.3.1.js" ></script>
 </head>
 <body style="background: #fff;">
 <div class="login-con" style="margin-top: 30px;" id="content">
-    <div class="page-head-con" style="position: relative;">
-        <span class="iconfont icon-jiantouzuo aui-font-size-20"></span> <span>FZ登录</span>
-        <div onclick="url('reg.html')" style="position: absolute;top: 0;right: 20px;font-size: 19px;" class="aui-text-danger">立即注册</div>
-    </div>
+    <header class="aui-bar aui-bar-nav2" id="aui-header" >
+        <div class="aui-title" id="head">登录</div>
+    </header>
     <div class="page-form-con">
         <ul class="aui-list aui-form-list">
             <li class="aui-list-item login-item">
                 <div class="aui-list-item-inner">
-                    <div class="aui-list-item-label-icon">
-                        <span class="icon iconfont icon-shouji1 aui-text-info login-icon-con"></span>
-                    </div>
                     <div class="aui-list-item-input">
-                        <input type="text" placeholder="请输入账号" v-model="acc">
+                        <input type="text" placeholder="请输入账号" v-model="acc" id="phone">
                     </div>
                     <div class="aui-list-item-label-icon">
-                        <i class="iconfont icon-shanchu" style="color: #bbb;font-size: 22px;" tapmode v-on:click="acc=''"></i>
+                        <i class="iconfont icon-shanchu" style="color: #bbb;font-size: 22px;" onclick="emptyPhone()"></i>
                     </div>
                 </div>
             </li>
             <li class="aui-list-item login-item">
                 <div class="aui-list-item-inner">
-                    <div class="aui-list-item-label-icon">
-                        <span class="icon iconfont icon-suozi aui-text-info login-icon-con"></span>
-                    </div>
                     <div class="aui-list-item-input">
-                        <input type="password" placeholder="请输入密码" v-model="pwd">
+                        <input type="password" placeholder="请输入密码" v-model="pwd" id="password">
+                        <input type="hidden" value="1" id="passShow" />
                     </div>
                     <div class="aui-list-item-label-icon">
-                        <i class="iconfont icon-shanchu" style="color: #bbb;font-size: 22px;" tapmode v-on:click="pwd=''"></i>
+                        <i class="iconfont icon-shanchu" style="color: #bbb;font-size: 22px;" onclick="emptyPass()"></i>&nbsp;&nbsp;
+                        <i onclick="modifyInput()"> <img  class='pngIcon' src="/image/closed.png"/></i>
                     </div>
                 </div>
             </li>
             <div class="aui-list-item-inner aui-padded-l-10" >
                 <div class="aui-list-item-input aui-font-size-14">
-                    <label><input class="aui-radio rem-pwd-con" type="radio" name="demo1" checked>&nbsp;<span class="rem-ped-text">记住密码</span></label>
-                    <span id="" class="for-pwd-text" tapmode onclick="openWin('fw','忘记密码','false');">
-	                        	忘记密码
-	                        </span>
+<!--                    <label><input class="aui-radio rem-pwd-con" type="radio" name="demo1" checked>&nbsp;<span class="rem-ped-text">记住密码</span></label>-->
+<!--                    <span id="" class="for-pwd-text" tapmode onclick="openWin('fw','忘记密码','false');">-->
+<!--	                        	忘记密码-->
+<!--	                        </span>-->
                 </div>
             </div>
         </ul>
-        <div  class="mt60 aui-btn aui-btn-info aui-btn-block aui-btn-sm" tapmode  v-on:click="login">登录</div>
+        <div  class="mt60 aui-btn aui-btn-info2 aui-btn-block aui-btn-sm"  onclick="adminLogin()">登录</div>
+        <div  class="mt10 aui-btn  aui-btn-block aui-btn-sm"   onclick="toRegister()">注册</div>
     </div>
     <div class="aui-text-info now-reg-btn" >
-
-        <div>APP下载地址：<a href="https://www.pgyer.com/fzpt">https://www.pgyer.com/fzpt</a></div></div>
 </div>
 
 
 </div>
 </body>
 <script type="text/javascript" src="/js/all.js" ></script>
-<script type="text/javascript" src="/js/login.js" ></script>
+<script type="text/javascript" src="/js/admin.js" ></script>
 </html>

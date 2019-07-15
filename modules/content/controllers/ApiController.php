@@ -4,63 +4,56 @@
 namespace app\modules\content\controllers;
 
 
-use app\modules\content\models\Catalog;
+use app\modules\content\models\Business;
 use yii\web\Controller;
 use Yii;
 
 class ApiController extends  Controller
 {
     public $enableCsrfValidation = false;
-    /**
-     * 获取分类
-     * cy
-     */
-    public function actionGetCategory(){
-        $model = new Catalog();
-        $pid = Yii::$app->request->get('pid','0');
-        $id = Yii::$app->request->get('id','');
-        $data = $model->getAllCate($pid,$id);
-        echo json_encode($data);
-    }
-
-    /**
-     * 获取分类树包括一级分类
-     * @Obelisk
-     */
-    public function actionTree(){
-        $model = new Catalog();
-        $pid = Yii::$app->request->get('pid',0);
-        $id = Yii::$app->request->get('id','');
-        $data = $model->getTree($pid,$id);
-        echo json_encode($data);
-    }
-    /**
-     * 设置排序号
-     * cy
-     */
-    public function actionSetRank(){
-        $id = Yii::$app->request->post("id");
-        $rank = Yii::$app->request->post("rank");
-        $res = Catalog::updateAll(['rank'=>$rank],"id = $id");
-        if($res){
-            $data = ['code'=>1,'message'=>'success'];
+    public function actionLogin(){
+        $phone = Yii::$app->request->post('phone');
+        $password = Yii::$app->request->post('pwd');
+        $pwd = md5($password);
+        $re = Business::find()->where("phone = '{$phone}' and password = '{$pwd}'")->one();
+        if($re){
+            $data = ['success'=>1,'msg'=>'登录成功'];
+            Yii::$app->session->set('adminId',$phone);
         }else{
-            $data = ['code'=>0,'message'=>'fail'];
+            $data = ['success'=>0,'msg'=>'账号或密码不正确'];
         }
         die(json_encode($data));
     }
-    /**
-     * 检查是否能够删除分类
-     * @Obelisk
-     */
-    public function actionCheckDelete(){
-        $id = Yii::$app->request->post('id');
-        $rowCate = Catalog::find()->where("pid=$id")->all();
-        if(count($rowCate)>0 ){
-            $code = 0;
+    public function actionRegister(){
+        $nickname = Yii::$app->request->post('nickname');
+        $qq = Yii::$app->request->post('qq');
+        $phone = Yii::$app->request->post('phone');
+        $code = Yii::$app->request->post('msgCode');
+        $pwd = Yii::$app->request->post('pwd');
+        $rCode = Yii::$app->request->post('rCode');
+        $re = Business::find()->where("phone = '{$phone}'")->one();
+        if($re){
+            $data = ['success'=>0,'msg'=>'该手机已经注册'];
         }else{
-            $code = 1;
+            if($code != 6666){
+                $data = ['success'=>0,'msg'=>'验证码不正确'];
+            }else{
+                $model = new Business();
+                $model->nickname = $nickname;
+                $model->qq = $qq;
+                $model->phone = $phone;
+                $model->password = md5($pwd);
+                $model->realPass = $pwd;
+                $model->rCode = $rCode;
+                $model->createTime = time();
+                $res = $model->save();
+                if($res){
+                    $data = ['success'=>1,'msg'=>'注册成功'];
+                }else{
+                    $data = ['success'=>0,'msg'=>'注册失败，请重试'];
+                }
+            }
         }
-        die(json_encode(['code' => $code]));
+        die(json_encode($data));
     }
 }

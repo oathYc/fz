@@ -644,6 +644,29 @@ button, .aui-btn {
 			box-sizing: border-box;
 	-webkit-user-select: none;
 	      	user-select: none;
+}/*按钮样式*/
+button, .aui-btn2 {
+	position: relative;
+	display: inline-block;
+	font-size: 0.75rem;
+	font-weight: 400;
+	font-family: inherit;
+	text-decoration: none;
+	text-align: center;
+	margin: 0;
+	background: #138f73;
+	padding: 0 0.6rem;
+	height: 1.9rem;
+	line-height:2.3rem;
+	color: white;
+	border-radius: 0.2rem;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	vertical-align: middle;
+	-webkit-box-sizing: border-box;
+			box-sizing: border-box;
+	-webkit-user-select: none;
+	      	user-select: none;
 }
 .aui-btn:active {
 	color: #212121;
@@ -667,7 +690,11 @@ button, .aui-btn {
 }
 .aui-btn-info {
 	color: #ffffff !important;
-	background-color: #FD7567 !important;
+	background-color: #FC5644 !important;
+}
+.aui-btn-info2 {
+	color: #ffffff !important;
+	background-color: #0ea286 !important;
 }
 .aui-btn-info.aui-active, .aui-btn-info:active {
 	color: #fff !important;
@@ -1016,7 +1043,7 @@ input[type="search"]::-webkit-search-cancel-button {
 .aui-list .aui-list-item-label-icon {
 	color: #212121;
     width: 35%;
-    min-width: 1.5rem;
+    min-width: 3.5rem;
     margin: 0;
     padding: 0;
     padding-right: 0.25rem;
@@ -1444,6 +1471,12 @@ input[type="search"]::-webkit-search-cancel-button {
 	background-color: #FD7567;
 	color: #ffffff;
 }
+.aui-bar-nav2 {
+	 top: 0;
+	 line-height: 2.25rem;
+	 background-color: #138f73;
+	 color: #ffffff;
+ }
 .aui-title a {
 	color: inherit;
 }

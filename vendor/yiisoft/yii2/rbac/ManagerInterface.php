@@ -26,11 +26,11 @@ interface ManagerInterface
     public function checkAccess($userId, $permissionName, $params = []);
 
     /**
-     * Creates a new Role object.
+     * Creates a new Business object.
      * Note that the newly created role is not added to the RBAC system yet.
      * You must fill in the needed data and call [[add()]] to add it to the system.
      * @param string $name the role name
-     * @return Role the new Role object
+     * @return Role the new Business object
      */
     public function createRole($name);
 

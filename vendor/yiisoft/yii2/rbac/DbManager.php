@@ -421,7 +421,7 @@ class DbManager extends BaseManager
     /**
      * Populates an auth item with the data fetched from database
      * @param array $row the data from the auth item table
-     * @return Item the populated auth item instance (either Role or Permission)
+     * @return Item the populated auth item instance (either Business or Permission)
      */
     protected function populateItem($row)
     {

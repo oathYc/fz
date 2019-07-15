@@ -3,7 +3,7 @@
  * 主导航菜单组件
  */
     namespace app\commands\background;
-    use app\modules\content\models\Role;
+    use app\modules\content\models\Business;
     use yii\base\Widget;
     use yii;
 	class HeadWidget extends Widget  {
@@ -23,7 +23,7 @@
                     $head = 0;
                 }
                 //头部导航
-                $headArr = Role::getHeadArr($adminId,$head);
+                $headArr = Business::getHeadArr($adminId,$head);
                 Yii::$app->session->set('headArr',$headArr);
             }
             $contentId = Yii::$app->session->get('contentId');//头部导航所在模块id

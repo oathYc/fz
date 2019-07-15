@@ -12,6 +12,7 @@ header{position: fixed!important;top: 0;left: 0;right: 0;z-index: 10;}
 			.rem-ped-text{position: relative;top: -3px;}
 			.for-pwd-text{position: relative;top: -3px;float: right;}
 			.mt60{margin-top: 60px;}
+			.mt10{margin-top: 30px;}
 			.now-reg-btn{position: fixed;bottom: 25px;text-align: center;left: 0;right: 0;}
 			
 /*page1.html*/
@@ -37,3 +38,10 @@ img{display: inline-block;}
 /*reg*/
 .tpimg{position: absolute;width:100px;bottom:5px;font-size: 14px!important;line-height: 1.8rem!important;height: 1.8rem!important; right: 0px;}
 			.sendcodebtn{position: absolute;width:100px;top:0px;font-size: 14px!important;line-height: 1.8rem!important;height: 1.8rem!important; right: 10px;}
+.pngIcon{
+	width: 50px;
+	margin-top: 16px;
+}
+.font-red{
+	color: red !important;
+}

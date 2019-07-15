@@ -8,7 +8,6 @@ namespace app\modules\cn\controllers;
 
 
 
-use app\controllers\CaptchaController;
 use app\modules\cn\models\User;
 use yii\web\Controller;
 use Yii;

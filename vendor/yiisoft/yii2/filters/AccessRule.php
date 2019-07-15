@@ -42,7 +42,7 @@ class AccessRule extends Component
      * - `?`: matches a guest user (not authenticated yet)
      * - `@`: matches an authenticated user
      *
-     * If you are using RBAC (Role-Based Access Control), you may also specify role or permission names.
+     * If you are using RBAC (Business-Based Access Control), you may also specify role or permission names.
      * In this case, [[User::can()]] will be called to check access.
      *
      * If this property is not set or empty, it means this rule applies to all roles.

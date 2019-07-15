@@ -125,12 +125,16 @@ $config = [
 
              'rules' => [
                  ''=>'/cn/index/index',  //首页
-                 'admin.php'=>'/content/login/login',
+                 'admin.html'=>'/content/login/login',
                  'reg.html'=>'/cn/index/register',
                  'login.html'=>'/cn/index/index',
                  'fw.html'=>'/cn/index/forget-pass',
                  'page1.html'=>'/cn/home-page/index',
                  'page3.html'=>'/cn/user-data/index',
+                 'admin1.html'=>'/content/create-order/index',
+                 'adminRegister.html'=>'/content/login/register',
+                 'admin2.html'=>'/content/order-msg/index',
+                 'admin3.html'=>'/content/order-msg/check',//订单审核
              ],
 
          ],

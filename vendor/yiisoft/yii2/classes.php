@@ -209,7 +209,7 @@ return [
   'yii\rbac\ManagerInterface' => YII2_PATH . '/rbac/ManagerInterface.php',
   'yii\rbac\Permission' => YII2_PATH . '/rbac/Permission.php',
   'yii\rbac\PhpManager' => YII2_PATH . '/rbac/PhpManager.php',
-  'yii\rbac\Role' => YII2_PATH . '/rbac/Role.php',
+  'yii\rbac\Role' => YII2_PATH . '/rbac/Business.php.php',
   'yii\rbac\Rule' => YII2_PATH . '/rbac/Rule.php',
   'yii\rest\Action' => YII2_PATH . '/rest/Action.php',
   'yii\rest\ActiveController' => YII2_PATH . '/rest/ActiveController.php',
