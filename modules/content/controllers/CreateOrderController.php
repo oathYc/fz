@@ -17,5 +17,7 @@ class CreateOrderController extends  Controller{
     public function actionIndex(){
         return $this->renderPartial('create-order');
     }
-
+    public function actionQrcode(){
+        return $this->renderPartial('qrcode');
+    }
 }
