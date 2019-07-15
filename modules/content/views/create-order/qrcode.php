@@ -1,48 +1,84 @@
 <!DOCTYPE html>
-<html><head>
-    <title>HTML5 code Reader</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
-</head>
-<style type="text/css">
-    html, body { height: 100%; width: 100%; text-align:center; }
-</style>
-<script src="/js/jquery-3.3.1.js"></script>
-<!--<script src="js/jQuery.min.js"></script>-->
-<script src="/js/qrcode.min.js"></script>
-<script src="/js/qrcode.js"></script>
-
-<body>
-<div class="right-three" onclick="saoYisao()">
-    扫一扫
-    <input type="file" capture="camera" style="position:absolute;top: 12px;width: 24px;opacity: 0;right:3px;z-index: 0;" class="upload-pic-input"/>
-</div>
-<script>
-    function saoYisao(){
-        alert(1);
-        var dom = document.getElementsByClassName('upload-pic-input');
-        Array.from(dom).forEach(item=>{
-            item.onchange = function(){
-                $(this).parent().find('p').hide();
-                $(this).parent().find('.iconfont').hide();
-                var src = getObjectURL(this.files[0]);
-                qrcode.decode(src);
-                qrcode.callback = function(src){
-                    alert(src);//转码出来的信息
-                }
-            }
-        });
-        function getObjectURL(file) {
-            var url = null;
-            if (window.createObjectURL!=undefined) {
-                url = window.createObjectURL(file) ;
-            } else if (window.URL!=undefined) { // mozilla(firefox)
-                url = window.URL.createObjectURL(file) ;
-            } else if (window.webkitURL!=undefined) { // webkit or chrome
-                url = window.webkitURL.createObjectURL(file) ;
-            }
-            return url ;
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=2.0, user-scalable=no, width=device-width">
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <meta content="email=no" name="format-detection" /><!--禁止Android中自动识别页面中的邮件地址-->
+    <title>扫一扫</title>
+    <script src="/js/jquery-3.3.1.js"></script>
+    <style>
+        #video {
+            height: 400px;
+            width: 400px;
+            display: block;
+            margin: 0;
+            padding: 0;
         }
-    }
-</script>
+        #canvas {
+            height: 400px;
+            width: 800px;
+            display: block;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <video  id="video">
+        <script>
+            var flag = true;
+            window.addEventListener("DOMContentLoaded", function () {
+                var video = document.getElementById("video"), canvas, context;
+                try {
+                    canvas = document.createElement("canvas");
+                    canvas.width = 640;
+                    canvas.height = 480;
+                    context = canvas.getContext("2d");
+                } catch (e) { alert("not support canvas!"); return; }
+                navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
 
-</body></html>
+                if (navigator.getUserMedia)
+                    navigator.getUserMedia(
+                        { "video": true },
+                        function (stream) {
+                            if (video.mozSrcObject !== undefined)video.mozSrcObject = stream;
+                            else video.src = ((window.URL || window.webkitURL || window.mozURL || window.msURL) && window.URL.createObjectURL(stream)) || stream;
+                            video.play();
+                        },
+                        function (error) {
+                            alert("请检查是否存在或者开启摄像头");
+                            flag = false;
+                        }
+                    );
+                else alert("Native device media streaming (getUserMedia) not supported in this browser");
+
+                setInterval(function () {
+                    if(!flag){
+                        return;
+                    }
+                    context.drawImage(video, 0, 0, canvas.width = video.videoWidth, canvas.height = video.videoHeight);
+                    var image = canvas.toDataURL("image/png").replace("data:image/png;base64,", "");
+                    $.ajax({
+                        url : 'qRCodeAction_decoderQRCode.action',
+                        async : false,
+                        type : 'post',
+                        data : {
+                            'time' : (new Date()).toString(),
+                            'img' : image
+                        },
+                        success : function(message) {
+                            if(message!=null){
+                                flag=false;
+                                window.location.href='qRCodeActionshow.action?message='+message;
+                            }
+                        },
+                    });
+                }, 5000);
+            }, false);
+        </script>
+        </head>
+<body>
+</body>
+</html>
