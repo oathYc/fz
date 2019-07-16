@@ -668,6 +668,28 @@ button, .aui-btn2 {
 	-webkit-user-select: none;
 	      	user-select: none;
 }
+button, .aui-btn3 {
+	position: relative;
+	display: inline-block;
+	font-size: 0.75rem;
+	font-weight: 400;
+	font-family: inherit;
+	text-decoration: none;
+	text-align: center;
+	margin: 0;
+	padding: 0 0.6rem;
+	height: 1.9rem;
+	line-height:2.3rem;
+	color: white;
+	border-radius: 0.2rem;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	vertical-align: middle;
+	-webkit-box-sizing: border-box;
+			box-sizing: border-box;
+	-webkit-user-select: none;
+	      	user-select: none;
+}
 .aui-btn:active {
 	color: #212121;
 	background-color: #bdbdbd;
@@ -683,6 +705,9 @@ button, .aui-btn2 {
 .aui-btn-success {
 	color: #ffffff;
 	background-color: #31CE77;
+}
+.aui-btn-success2 {
+	color: #ffffff;
 }
 .aui-btn-success.aui-active, .aui-btn-success:active {
 	color: #fff;

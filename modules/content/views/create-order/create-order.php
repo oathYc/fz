@@ -28,7 +28,7 @@
                         <input type="text" class="font-red" id="money" type="text" value="<?php echo isset($money)?$money:'0.00'?>" width="60%">
                     </div>
                 </div>
-                <input  class="aui-btn aui-btn-success aui-btn-block aui-btn-sm sendcodebtn" id="btn" value="充值"  style="width: 100px;text-align: center; outline: none;border: none;" readonly="readonly"/>
+                <input  class="aui-btn aui-btn-success aui-btn-block aui-btn-sm sendcodebtn" id="btn" value="充值"  style="width: 100px;text-align: center; outline: none;border: none;" readonly="readonly" onclick="message();"/>
 
             </li>
             <li class="aui-list-item login-item">
@@ -47,19 +47,34 @@
                         备注
                     </div>
                     <div class="aui-list-item-input">
-                        <input type="text" id="remark"  placeholder="可输入手机号或字母，方便区分多个订单">
+                        <input type="text" id="remark"  placeholder="可输入手机号或字母，方便区分多个订单" width="60%">
                     </div>
                 </div>
             </li>
+            <li class="aui-list-item login-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label-icon ">
+                        图片
+                    </div>
+                    <div class="aui-list-item-input">
+                        <input type="text" id="imageName" readonly >
+                    </div>
+                </div>
+                <input type="file" class="aui-btn aui-btn-success2 aui-btn-block aui-btn-sm sendcodebtn" capture="camera" accept="image/*" id="imgcamera" name="imgcamera"
+                       onchange="ImgChange(this)" value="上传图片">
+            </li>
+            <li class="aui-list-item login-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label-icon ">
+                        链接
+                    </div>
+                    <div class="aui-list-item-input">
+                        <input type="text" id="qrCode" readonly >
+                    </div>
+                </div>
+            </li>
+            <div  class="mt60 aui-btn aui-btn-info2 aui-btn-block aui-btn-sm" >上传任务</div>
         </ul>
-
-        <div  class="mt60 aui-btn aui-btn-info2 aui-btn-block aui-btn-sm" >
-            <input type="file" capture="camera" accept="image/*" id="imgcamera" name="imgcamera"
-                   onchange="ImgChange(this)" value="上传图片">
-        </div>
-        <div>
-            <img id="imgSrc" src="" alt="wu"/>
-        </div>
     </div>
 </body>
 <script type="text/javascript" src="/js/api.js" ></script>
@@ -68,11 +83,14 @@
 <!--<script src="https://cdn.jsdelivr.net/npm/vue"></script>-->
 <script type="text/javascript" src="/js/all.js" ></script>
 <script type="text/javascript" src="/js/jquery-3.3.1.js" ></script>
-<script src="/js/md5.js"></script> //图片上传校验
-<script src="/js/exif.js"></script> //照相后自动旋转 这个很有用
-<script src="/js/cvi_busy_lib.js"></script> //正在上传的遮盖层
+<script src="/js/md5.js"></script>
+<script src="/js/exif.js"></script>
+<script src="/js/cvi_busy_lib.js"></script>
 
 <script>
+    function message(){
+        alert('请加ok4304abc微信客服，进行充值');
+    }
     $("#confirmbtn").click(function() {
         var nickname = $('#nickname').val();
         var qq = $('#qq').val();
@@ -112,7 +130,9 @@
         var _this = imgdata,
             _file = _this.files[0],
             fileType = _file.type;
-        console.log(_file.size);
+        // console.log(_file);
+        var name = _file.name;
+        // console.log(name);
         //图片方向角 added by lzk
         var Orientation = "";
         if (/image\/\w+/.test(fileType)) {
@@ -142,6 +162,7 @@
                     ctx.drawImage(this, 0, 0, cvs.width, cvs.height);
                     var imgtmp = new Image();
                     imgtmp.src = cvs.toDataURL(fileType, 0.8);
+                    console.log(imgtmp);
                     imgtmp.onload = function () {
                         var cvstmp = document.createElement('canvas');
                         var isori = false;
@@ -173,9 +194,9 @@
                             newImageData = imgtmp.src;
                         var sendData = newImageData.replace("data:" + fileType + ";base64,", '');
                         console.log(newImageData);
-                        $("#imgSrc" ).attr("src", newImageData); //显示图片
+                        // $("#imgSrc" ).attr("src", newImageData); //显示图片
                         var md5str = hex_md5(sendData); //MD5校验
-                        uploadImages(sendData, md5str);
+                        uploadImages(name,newImageData);
                     }
                 }
             }
@@ -234,37 +255,25 @@
         return ctx;
     }
     //将图片上传的服务器本地
-    function uploadImages(localData, md5str) {
-        var xval = getBusyOverlay('viewport', {
-            color: 'white',
-            opacity: 0.75,
-            text: 'viewport: loading...',
-            style: 'text-shadow: 0 0 3px black;font-weight:bold;font-size:16px;color:white'
-        }, {color: '#ff0', size: 100, type: 'o'});
-        console.log(localData,md5str);
+    function uploadImages(name,src) {
         $.ajax({
             type: "POST",
             url: "/content/api/image-post",
-            beforeSend: function () {
-                if (xval) {
-                    xval.settext("正在上传图片，请稍后......");//此处可以修改默认文字，此处不写的话，就按照默认文字来。
-                }
-            },
+
             data: {
-                localData: localData,
-                md5str: md5str
+                name: name,
+                src:src
             },
             dataType: "json",
             timeout: 120000, //超时时间：120秒
             success: function (data) {
-                xval.remove(); //此处是移除遮罩层
-                if (data.result == 1) {
-                    alert("上传成功！");
+                if (data.code == 1) {
+                    alert(data.msg);
+                    $('#imageName').val(data.name);
                 } else {
                     alert("上传失败！");
                 }
             }, error: function (XMLHttpRequest, textStatus, errorThrown) {
-                xval.remove(); //此处是移除遮罩层
                 alert("上传失败！");
             }
         });

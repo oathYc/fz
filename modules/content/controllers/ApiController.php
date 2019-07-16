@@ -56,4 +56,26 @@ class ApiController extends  Controller
         }
         die(json_encode($data));
     }
+    public function actionImagePost(){
+        $name = Yii::$app->request->post('name');
+        $src = Yii::$app->request->post('src');
+        $imgdata = substr($src,strpos($src,",") + 1);
+        $decodedData = base64_decode($imgdata);
+        $date = date('Y-m-d');
+        $file = $_SERVER['DOCUMENT_ROOT']."/files/$date/$name";
+        $dir = $_SERVER['DOCUMENT_ROOT']."/files/$date";
+        if(!is_dir($dir)){
+            $res=mkdir(iconv("UTF-8", "GBK", $dir),0777,true);
+            if (!$res){
+                die(json_encode(['code'=>0,'msg'=>'图片上传失败:文件夹创建失败']));
+            }
+        }
+        file_put_contents($file,$decodedData);
+        if(file_exists($file)){
+            $data = ['code'=>1,'file'=>$file,'msg'=>'上传成功','name'=>$name];
+        }else{
+            $data = ['code'=>0,'msg'=>'图片上传失败：图片保存失败'];
+        }
+        die(json_encode($data));
+    }
 }
