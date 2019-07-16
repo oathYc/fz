@@ -105,14 +105,18 @@
         if(!picval){
             Toast('图片验证码不能为空');
             return false;
-        }
-        $.post(paramUrl+"/cn/api/check-img-code",{
-            imgCode:picval,
-        },function(re){
-            if(re.code !=1){
-                Toast('图片验证码不正确');
+        }else{
+            if(countdown == 60){
+                $.post(paramUrl+"/cn/api/check-img-code",{
+                    imgCode:picval,
+                },function(re){
+                    if(re.code !=1){
+                        Toast('图片验证码不正确');
+                    }
+                },'json');
             }
-        },'json');
+        }
+
         if(!tel){
             Toast('手机号不能为空');
             return false;
@@ -138,7 +142,7 @@
                     }else{
                         Toast(ret.msg);
                     }
-                });
+                },'json');
             }
             val.setAttribute("disabled", true);
             val.value="发送(" + countdown + ")";
