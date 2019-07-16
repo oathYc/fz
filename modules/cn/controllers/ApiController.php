@@ -107,7 +107,8 @@ class ApiController extends Controller {
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
         }
-        $result =json_decode(curl_exec($curl));
+        $result = curl_exec($curl);
+        $result =json_decode($result);
         if($result['return_code'] == 0000){
             Yii::$app->session->set('msgCode',$code);
             Yii::$app->session->set('msgTime',$time);

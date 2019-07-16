@@ -25,7 +25,7 @@
                         当前余额
                     </div>
                     <div class="aui-list-item-input">
-                        <input type="text" class="font-red" id="money" type="text" value="<?php echo isset($money)?$money:'0.00'?>" width="60%">
+                        <input type="text" class="font-red" id="money" readonly type="text" value="<?php echo isset($money)?$money:'0.00'?>" width="60%">
                     </div>
                 </div>
                 <input  class="aui-btn aui-btn-success aui-btn-block aui-btn-sm sendcodebtn" id="btn" value="充值"  style="width: 100px;text-align: center; outline: none;border: none;" readonly="readonly" onclick="message();"/>
@@ -37,7 +37,7 @@
                         任务佣金
                     </div>
                     <div class="aui-list-item-input">
-                        <input type="text" id="pay"  value="6">
+                        <input type="text" id="pay"  value="6" name="pay">
                     </div>
                 </div>
             </li>
@@ -47,7 +47,7 @@
                         备注
                     </div>
                     <div class="aui-list-item-input">
-                        <input type="text" id="remark"  placeholder="可输入手机号或字母，方便区分多个订单" width="60%">
+                        <input type="text" id="remark" name="remark"  placeholder="可输入手机号或字母，方便区分多个订单" width="60%">
                     </div>
                 </div>
             </li>
@@ -57,7 +57,7 @@
                         图片
                     </div>
                     <div class="aui-list-item-input">
-                        <input type="text" id="imageName" readonly >
+                        <input type="text" id="imageName" name="imageName" readonly >
                     </div>
                 </div>
                 <input type="file" class="aui-btn aui-btn-success2 aui-btn-block aui-btn-sm sendcodebtn" capture="camera" accept="image/*" id="imgcamera" name="imgcamera"
@@ -69,11 +69,11 @@
                         链接
                     </div>
                     <div class="aui-list-item-input">
-                        <input type="text" id="qrCode" readonly >
+                        <input type="text" id="qrCode" name="qrCode" readonly >
                     </div>
                 </div>
             </li>
-            <div  class="mt60 aui-btn aui-btn-info2 aui-btn-block aui-btn-sm" >上传任务</div>
+            <div  class="mt60 aui-btn aui-btn-info2 aui-btn-block aui-btn-sm" onclick="submitOrder()" >上传任务</div>
         </ul>
     </div>
 </body>
@@ -270,20 +270,47 @@
                 if (data.code == 1) {
                     alert(data.msg);
                     $('#imageName').val(data.name);
+                    $('#qrCode').val(data.qrcode);
                 } else {
-                    alert("上传失败！");
+                    alert(data.msg);
                 }
             }, error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert("上传失败！");
+                alert("上传失败");
             }
-        });
+        },'json');
     }
     //拍照
     function cameraImg() {
         document.getElementById("imgcamera").value = ""; //上传文件时先把file类型input清空下
         $("input[id='imgcamera']").click();
     }
-
+    function submitOrder(){
+        var money = $('#money').val();
+        var pay = $('#pay').val();
+        var remark = $('#remark').val();
+        var image = $('#imageName').val();
+        var qrcode = $('#qrCode').val();
+        if(money < pay){
+            Toast('月不足，请先充值');return false;
+        }
+        if(!pay){
+            Toast('请输入任务佣金');return false;
+        }
+        if(!image || !qrcode){
+            Toast('请上传任务二维码');return false;
+        }
+        $.post('/content/api/submit-order',{
+            pay:pay,
+            remark:remark,
+            image:image,
+            qrcode:qrcode,
+        },function(data){
+            Toast(data.msg);
+            if(data.msg ==1){
+                window.location.reload();
+            }
+        },'json');
+    }
 </script>
 
 </html>
