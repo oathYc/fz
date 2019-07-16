@@ -54,9 +54,11 @@
         </ul>
 
         <div  class="mt60 aui-btn aui-btn-info2 aui-btn-block aui-btn-sm" >
-            <input type="file" capture="camera" accept="image/*" id="imgcamera" name="imgcamera" style="display: none;"
+            <input type="file" capture="camera" accept="image/*" id="imgcamera" name="imgcamera"
                    onchange="ImgChange(this)" value="上传图片">
-            扫码上传
+        </div>
+        <div>
+            <img id="imgSrc" src="" alt="wu"/>
         </div>
     </div>
 </body>
@@ -170,7 +172,8 @@
                         else
                             newImageData = imgtmp.src;
                         var sendData = newImageData.replace("data:" + fileType + ";base64,", '');
-                        $("#img" + imageType1).attr("src", newImageData); //显示图片
+                        console.log(newImageData);
+                        $("#imgSrc" ).attr("src", newImageData); //显示图片
                         var md5str = hex_md5(sendData); //MD5校验
                         uploadImages(sendData, md5str);
                     }
@@ -238,9 +241,10 @@
             text: 'viewport: loading...',
             style: 'text-shadow: 0 0 3px black;font-weight:bold;font-size:16px;color:white'
         }, {color: '#ff0', size: 100, type: 'o'});
+        console.log(localData,md5str);
         $.ajax({
             type: "POST",
-            url: "",
+            url: "/content/api/image-post",
             beforeSend: function () {
                 if (xval) {
                     xval.settext("正在上传图片，请稍后......");//此处可以修改默认文字，此处不写的话，就按照默认文字来。
