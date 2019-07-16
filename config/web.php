@@ -135,6 +135,9 @@ $config = [
                  'adminRegister.html'=>'/content/login/register',
                  'admin2.html'=>'/content/order-msg/index',
                  'admin3.html'=>'/content/order-msg/check',//订单审核
+                 'jd.html'=>'/cn/home-page/jie-dan',
+                 'detail.html'=>'/cn/order/detail',
+                 'list.html'=>'/cn/order/list',
              ],
 
          ],
