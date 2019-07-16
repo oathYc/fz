@@ -1,7 +1,7 @@
 <div id="contentHolder">
     <video id="video" width="320" height="320" autoplay>
     </video>
-    <button id="snap" style="display:none"> 拍照</button>
+    <button id="snap" style="display:block"> 拍照</button>
     <canvas style="display:none" id="canvas" width="320" height="320">
     </canvas>
 </div>
