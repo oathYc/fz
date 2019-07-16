@@ -52,7 +52,12 @@
                 </div>
             </li>
         </ul>
-        <div  class="mt60 aui-btn aui-btn-info2 aui-btn-block aui-btn-sm" id="confirmbtn">扫码上传</div>
+
+        <div  class="mt60 aui-btn aui-btn-info2 aui-btn-block aui-btn-sm" >
+            <input type="file" capture="camera" accept="image/*" id="imgcamera" name="imgcamera" style="display: none;"
+                   onchange="ImgChange(this)" value="上传图片">
+            扫码上传
+        </div>
     </div>
 </body>
 <script type="text/javascript" src="/js/api.js" ></script>
@@ -61,6 +66,10 @@
 <!--<script src="https://cdn.jsdelivr.net/npm/vue"></script>-->
 <script type="text/javascript" src="/js/all.js" ></script>
 <script type="text/javascript" src="/js/jquery-3.3.1.js" ></script>
+<script src="/js/md5.js"></script> //图片上传校验
+<script src="/js/exif.js"></script> //照相后自动旋转 这个很有用
+<script src="/js/cvi_busy_lib.js"></script> //正在上传的遮盖层
+
 <script>
     $("#confirmbtn").click(function() {
         var nickname = $('#nickname').val();
@@ -97,6 +106,171 @@
         },'json');
 
     });
+    function ImgChange(imgdata) {
+        var _this = imgdata,
+            _file = _this.files[0],
+            fileType = _file.type;
+        console.log(_file.size);
+        //图片方向角 added by lzk
+        var Orientation = "";
+        if (/image\/\w+/.test(fileType)) {
+            EXIF.getData(_file, function () {
+                EXIF.getAllTags(this);
+                Orientation = EXIF.getTag(this, 'Orientation');
+            });
+            var fileReader = new FileReader();
+            fileReader.readAsDataURL(_file);
+            fileReader.onload = function (event) {
+                var result = event.target.result;   //返回的dataURL
+                var image = new Image();
+                image.src = result;
+                image.onload = function () {  //创建一个image对象，给canvas绘制使用
+                    var cvs = document.createElement('canvas');
+                    var scale = 1;
+                    if (this.width > 1080 || this.height > 1080) {  //1080只是示例，可以根据具体的要求去设定缩放图片大小
+                        if (this.width > this.height) {
+                            scale = 1080 / this.width;
+                        } else {
+                            scale = 1080 / this.height;
+                        }
+                    }
+                    cvs.width = this.width * scale;
+                    cvs.height = this.height * scale;     //计算等比缩小后图片宽高
+                    var ctx = cvs.getContext('2d');
+                    ctx.drawImage(this, 0, 0, cvs.width, cvs.height);
+                    var imgtmp = new Image();
+                    imgtmp.src = cvs.toDataURL(fileType, 0.8);
+                    imgtmp.onload = function () {
+                        var cvstmp = document.createElement('canvas');
+                        var isori = false;
+                        if (Orientation != "" && Orientation != 1) {
+                            //alert('旋转处理' + Orientation);
+                            switch (Orientation) {
+                                case 6://需要顺时针（向左）90度旋转
+                                    //alert('需要顺时针（向左）90度旋转');
+                                    isori = true;
+                                    rotateImg(this, 'left', cvstmp);
+                                    break;
+                                case 8://需要逆时针（向右）90度旋转
+                                    //alert('需要顺时针（向右）90度旋转');
+                                    rotateImg(this, 'right', cvstmp);
+                                    isori = true;
+                                    break;
+                                case 3://需要180度旋转
+                                    //alert('需要180度旋转');
+                                    rotateImg(this, 'right', cvstmp);//转两次
+                                    rotateImg(this, 'right', cvstmp);
+                                    isori = true;
+                                    break;
+                            }
+                        }
+                        var newImageData;
+                        if (isori)
+                            newImageData = cvstmp.toDataURL(fileType, 0.8);   //重新生成图片，fileType为用户选择的图片类型
+                        else
+                            newImageData = imgtmp.src;
+                        var sendData = newImageData.replace("data:" + fileType + ";base64,", '');
+                        $("#img" + imageType1).attr("src", newImageData); //显示图片
+                        var md5str = hex_md5(sendData); //MD5校验
+                        uploadImages(sendData, md5str);
+                    }
+                }
+            }
+        } else {
+            alert("图片类型不正确");
+        }
+    }
+    function rotateImg(img, direction, canvas) {
+        //alert(img);
+        //最小与最大旋转方向，图片旋转4次后回到原方向
+        var min_step = 0;
+        var max_step = 3;
+        //var img = document.getElementById(pid);
+        if (img == undefined) return;
+        //img的高度和宽度不能在img元素隐藏后获取，否则会出错
+        var height = img.height;
+        var width = img.width;
+        var step = 2;
+
+        if (direction == 'right') {
+            step++;
+            //旋转到原位置，即超过最大值
+            step > max_step && (step = min_step);
+        } else {
+            step--;
+            step < min_step && (step = max_step);
+        }
+        var ctx = canvas.getContext('2d');
+        //旋转角度以弧度值为参数
+        var degree = step * 90 * Math.PI / 180;
+        switch (step) {
+            case 0:
+                canvas.width = width;
+                canvas.height = height;
+                ctx.drawImage(img, 0, 0);
+                break;
+            case 1:
+                canvas.width = height;
+                canvas.height = width;
+                ctx.rotate(degree);
+                ctx.drawImage(img, 0, -height);
+                break;
+            case 2:
+                canvas.width = width;
+                canvas.height = height;
+                ctx.rotate(degree);
+                ctx.drawImage(img, -width, -height);
+                break;
+            case 3:
+                canvas.width = height;
+                canvas.height = width;
+                ctx.rotate(degree);
+                ctx.drawImage(img, -width, 0);
+                break;
+        }
+        return ctx;
+    }
+    //将图片上传的服务器本地
+    function uploadImages(localData, md5str) {
+        var xval = getBusyOverlay('viewport', {
+            color: 'white',
+            opacity: 0.75,
+            text: 'viewport: loading...',
+            style: 'text-shadow: 0 0 3px black;font-weight:bold;font-size:16px;color:white'
+        }, {color: '#ff0', size: 100, type: 'o'});
+        $.ajax({
+            type: "POST",
+            url: "",
+            beforeSend: function () {
+                if (xval) {
+                    xval.settext("正在上传图片，请稍后......");//此处可以修改默认文字，此处不写的话，就按照默认文字来。
+                }
+            },
+            data: {
+                localData: localData,
+                md5str: md5str
+            },
+            dataType: "json",
+            timeout: 120000, //超时时间：120秒
+            success: function (data) {
+                xval.remove(); //此处是移除遮罩层
+                if (data.result == 1) {
+                    alert("上传成功！");
+                } else {
+                    alert("上传失败！");
+                }
+            }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                xval.remove(); //此处是移除遮罩层
+                alert("上传失败！");
+            }
+        });
+    }
+    //拍照
+    function cameraImg() {
+        document.getElementById("imgcamera").value = ""; //上传文件时先把file类型input清空下
+        $("input[id='imgcamera']").click();
+    }
+
 </script>
 
 </html>

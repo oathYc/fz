@@ -106,7 +106,7 @@
         <div v-html="indextip"></div>
     </div>
     <div class="getjc">
-        <div class="getjcbtn"  tapmode v-on:click="jdjcclick">
+        <div class="getjcbtn"  onclick="javascript:location.href='/jd.html';">
             接单教程
         </div>
     </div>
@@ -120,7 +120,7 @@
                 </div>
             </div>
             <div class="aui-margin-t-15">
-                <h3 class="fw7">公告内容<br>(测试)</h3>
+                <h3 class="fw7">公告内容<br>(先找到人再接单，如果误抢单或者在订单放弃有效期内不能操作完成，请放弃订单，成功率低于40%会被永久禁止接单。成功率提起来)</h3>
                 <div class="noticeinner" v-html="noticecon">
                 </div>
             </div>

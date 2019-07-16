@@ -40,4 +40,8 @@ class HomePageController extends yii\web\Controller {
         Yii::$app->session->removeAll();
         return $this->redirect('/cn/index/index');
     }
+    //接单教程
+    public function actionJieDan(){
+        return $this->renderPartial('jiedan');
+    }
 }
