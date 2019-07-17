@@ -131,7 +131,7 @@
             _file = _this.files[0],
             fileType = _file.type;
         // console.log(_file);
-        var name = _file.name;
+        // var name = _file.name;
         // console.log(name);
         //图片方向角 added by lzk
         var Orientation = "";
@@ -196,7 +196,7 @@
                         console.log(newImageData);
                         // $("#imgSrc" ).attr("src", newImageData); //显示图片
                         var md5str = hex_md5(sendData); //MD5校验
-                        uploadImages(name,newImageData);
+                        uploadImages(newImageData);
                     }
                 }
             }
@@ -255,13 +255,13 @@
         return ctx;
     }
     //将图片上传的服务器本地
-    function uploadImages(name,src) {
+    function uploadImages(src) {
         $.ajax({
             type: "POST",
             url: "/content/api/image-post",
 
             data: {
-                name: name,
+                // name: name,
                 src:src
             },
             dataType: "json",

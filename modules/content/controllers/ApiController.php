@@ -58,11 +58,12 @@ class ApiController extends  Controller
         die(json_encode($data));
     }
     public function actionImagePost(){
-        $name = Yii::$app->request->post('name');
+//        $name = Yii::$app->request->post('name');
         $src = Yii::$app->request->post('src');
         $imgdata = substr($src,strpos($src,",") + 1);
         $decodedData = base64_decode($imgdata);
         $date = date('Y-m-d');
+        $name = time().'png';
         $file = $_SERVER['DOCUMENT_ROOT']."/files/$date/$name";
         $dir = $_SERVER['DOCUMENT_ROOT']."/files/$date";
         if(!is_dir($dir)){

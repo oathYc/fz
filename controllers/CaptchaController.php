@@ -14,6 +14,7 @@ class CaptchaController extends Controller
         $c = Yii::createObject('yii\captcha\CaptchaAction', ['__captcha', $this]);
         $c->getVerifyCode(true);
         Yii::$app->session->set('imgCode',$c->getVerifyCode());
+        var_dump($c->run());die;
         return $c->run();
     }
     //验证验证码

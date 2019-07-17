@@ -4,10 +4,11 @@ namespace app\controllers;
 
 use Yii;
 use app\libs\ApiControl;
+use yii\web\Controller;
 use yii\web\ViewAction;
 
 
-class DownloadController extends ApiControl
+class DownloadController extends Controller
 {
     public function actionIndex()
     {
