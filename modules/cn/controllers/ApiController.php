@@ -87,6 +87,7 @@ class ApiController extends Controller {
         $path = "/yzx/verifySms";
         $method = "POST";
         $appcode = "b5b3c343d7a5404b9a41dfc9b33fc034";
+        $appcode = " ";
         $headers = array();
         array_push($headers, "Authorization:APPCODE " . $appcode);
         $code = rand(1000,9999);

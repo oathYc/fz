@@ -92,6 +92,7 @@ class ApiController extends  Controller
         $path = "/yunapi/qrdecode.html";
         $method = "POST";
         $appcode = "b5b3c343d7a5404b9a41dfc9b33fc034";
+        $appcode = " ";
         $headers = array();
         array_push($headers, "Authorization:APPCODE " . $appcode);
         //根据API的要求，定义相对应的Content-Type
